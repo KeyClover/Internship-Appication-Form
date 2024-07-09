@@ -29,10 +29,10 @@ $mail ->Host = "smtp.gmail.com";
 $mail ->SMTPSecure = '';
 $mail ->Port = 587;
 
-$mail ->Username ="suvichakkey45@gmail.com";
-$mail ->Password ="nrjb qjqe drjc zfbj";
+$mail ->Username =" "; //put your own gamil here
+$mail ->Password =" ";//put your own application gmail pass word here
 
-$mail ->setFrom("suvichakkey45@gmail.com");
+$mail ->setFrom(" ");//set any email as a sender
 
 $mail->addAddress($_POST["email"]);
 
