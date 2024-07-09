@@ -29,7 +29,7 @@ $mail ->Host = "smtp.gmail.com";
 $mail ->SMTPSecure = '';
 $mail ->Port = 587;
 
-$mail ->Username =" "; //put your own gamil here
+$mail ->Username =" "; //put your own eamil here
 $mail ->Password =" ";//put your own application gmail pass word here
 
 $mail ->setFrom(" ");//set any email as a sender
