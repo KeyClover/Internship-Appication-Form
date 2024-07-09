@@ -5,41 +5,7 @@ $error = "";
 $success = false;
 
 // Process form submission
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Validate and sanitize input
-    $firstname = filter_input(INPUT_POST, 'firstname', FILTER_SANITIZE_STRING);
-    $lastname = filter_input(INPUT_POST, 'lastname', FILTER_SANITIZE_STRING);
-    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-    $phone_no = filter_input(INPUT_POST, 'phone_no', FILTER_SANITIZE_STRING);
 
-    // Validate email
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $error = "Invalid email format";
-    }
-
-    // Handle file upload
-    if (isset($_FILES['resume']) && $_FILES['resume']['error'] == 0) {
-        $allowed = array('pdf', 'doc', 'docx');
-        $filename = $_FILES['resume']['name'];
-        $ext = pathinfo($filename, PATHINFO_EXTENSION);
-        if (!in_array($ext, $allowed)) {
-            $error = "Invalid file format. Only PDF, DOC, and DOCX are allowed.";
-        } else {
-            $upload_dir = 'uploads/';
-            $resume = $upload_dir . uniqid() . '.' . $ext;
-            move_uploaded_file($_FILES['resume']['tmp_name'], $resume);
-        }
-    } else {
-        $error = "Resume is required";
-    }
-
-    // If no errors, process the form (e.g., send email, save to database)
-    if (empty($error)) {
-        // Here you would typically save the data to a database or send an email
-        // For this example, we'll just set a success flag
-        $success = true;
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -66,49 +32,51 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     <div class="container">
         <h2> Internship Registration Form</h2>
+     
         <div>
-            <Form action="mail.php" method="post" >
+        <Form action="mail.php" method="post" enctype="multipart/form-data">
+           
+                
                 <div class="input-user">
                     <i class="fa fa-user user"></i>
-                    <input type="text" placeholder="First Name" class="name" name="firstname" id="first_name" required>
+                    <input type="text" placeholder="First Name" class="name" name="firstname" id="first_name" value="<?php echo $firstname; ?>" required>
                     <span>
                         <i class="fa fa-user user"></i>
-                        <input type="text" placeholder="Last Name" class="name" name="lastname" id="last_name" required>
+                        <input type="text" placeholder="Last Name" class="name" name="lastname" id="last_name" value="<?php echo $lastname; ?>" required>
                     </span>
                 </div>
 
                 <Div class="input-email">
                     <i class="fa fa-envelope email"></i>
-                   <label for="email"> <input  type="email" placeholder="your@examplegmail.com" class="emailtxt" name="email" id="email" required> </label>
+                   <label for="email"> <input  type="email" placeholder="your@examplegmail.com" class="emailtxt" name="email" id="email"  value="<?php echo $email; ?>" required> </label>
                 </Div>
 
                 <Div class="input-phone">
                     <i class="fa fa-phone phone"></i>
-                    <input type="number" placeholder=" +66-xxx-xxx" class="phonetxt" name="phone_no" id="phone_no" required>
+                    <input type="number" placeholder=" +66-xxx-xxx" class="phonetxt" name="phone_no" id="phone_no"  value="<?php echo $phone_no; ?>" required>
                 </Div>
 
                 <Div class="input-resume">
-                    <Div class="container_resume">
+                    <Div class="container_resume" >
                         <i class="fa fa-file file"></i>
                         <h4>Please attach your Resume here</h4>
-                        <input type="file">
+                        <input type="file" name="resume" required>
                     </Div>
                 </Div>
 
                 <Div class="input-submit">
 
-                    <a href="thankyou.html"><input type="submit" value="Submit" name="send"></a>
+                  <a href = "mail.php">  <input type="submit"  name="send"></a> 
                       
 
                 </Div>
+                
             </Form>
         </div>
     </div>
 
 
 </body>
-
-
 
 
 

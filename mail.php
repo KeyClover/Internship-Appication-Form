@@ -41,8 +41,33 @@ $mail->isHTML(true);
 $mail->Body = 'We have received your application. Thank you.';
 
 $mail->send(); 
+} 
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+if (isset($_FILES['resume']) && $_FILES['resume']['error'] == 0) {
+    $allowed = array('pdf', 'doc', 'docx');
+    $filename = $_FILES['resume']['name'];
+    $ext = pathinfo($filename, PATHINFO_EXTENSION);
+    if (!in_array($ext, $allowed)) {
+        $error = "Invalid file format. Only PDF, DOC, and DOCX are allowed.";
+    } else {
+        $upload_dir = 'uploads/';
+        $resume = $upload_dir . uniqid() . '.' . $ext;
+        move_uploaded_file($_FILES['resume']['tmp_name'], $resume);
+    }
+} else {
+    $error = "Resume is required";
 }
+}
+
+
+
+
+
+
+
+
 
 ?>
 
